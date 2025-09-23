@@ -102,7 +102,7 @@ export default function Navbar(props) {
 
           {/* Logo */}
           <a href="/" aria-label="Home" className="flex items-center gap-2">
-            <img src="/logo2.svg" alt="City Explorer" className="h-6 w-auto block" />
+            <img src="/logo2.svg" alt="UCEN Pulse" className="h-6 w-auto block" />
           </a>
 
           {/* Desktop search (md+) */}
