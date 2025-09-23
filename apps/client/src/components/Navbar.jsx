@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
  */
 
 export default function Navbar(props) {
-  const onSearch = props?.onSearch || (() => {});
+  const onSearch = props?.onSearch || (() => { });
 
   const [avatarOpen, setAvatarOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
