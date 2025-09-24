@@ -102,7 +102,7 @@ export default function Navbar(props) {
 
           {/* Logo */}
           <a href="/" aria-label="Home" className="flex items-center gap-2">
-            <img src="/logo2.svg" alt="UCEN Pulse" className="h-6 w-auto block" />
+            <img src="/logo2.svg" alt="UCEN Pulse" className="h-8 w-auto block" />
           </a>
 
           {/* Desktop search (md+) */}
@@ -112,10 +112,10 @@ export default function Navbar(props) {
             className="hidden md:block md:max-w-md md:w-full md:mx-6"
             onSubmit={submitDesktop}
           >
-            <label htmlFor="desktop-city-search" className="sr-only">Search for a city</label>
+            <label htmlFor="desktop-record-search" className="sr-only">Search for a record</label>
             <div className="flex gap-2">
               <input
-                id="desktop-city-search"
+                id="desktop-record-search"
                 type="search"
                 placeholder="Search..."
                 className="w-full border rounded-md px-3 h-10 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -124,7 +124,7 @@ export default function Navbar(props) {
               />
               <button
                 type="submit"
-                className="py-2 px-4 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="py-2 px-4 text-sm bg-[#7c7c7c] text-white rounded-md hover:bg-[#555555] focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
               >
                 Search
               </button>
@@ -231,7 +231,7 @@ export default function Navbar(props) {
               <div className="flex gap-2">
                 <input
                   ref={mobileSearchRef}
-                  id="mobile-city-search"
+                  id="mobile-record-search"
                   type="search"
                   placeholder="Search..."
                   className="w-full border rounded-md px-3 h-10 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
