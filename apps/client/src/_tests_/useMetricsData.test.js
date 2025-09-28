@@ -11,7 +11,7 @@ function MetricsProbe() {
   return (
     <div>
       <div data-testid="loading">{String(isLoading)}</div>
-      <div data-testid="error">{String(!!error)}</div>
+      <div data-testid="eror">{String(!!error)}</div>
       <div data-testid="count">{data.length}</div>
       <div data-testid="types">{data.map(m => m.type).join(',')}</div>
     </div>
