@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 /**
  * Props (all optional):
@@ -124,9 +125,10 @@ export default function Navbar(props) {
               />
               <button
                 type="submit"
-                className="py-2 px-4 text-sm bg-[#7c7c7c] text-white rounded-md hover:bg-[#555555] focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                className="py-2 px-4 text-sm bg-transparent text-black border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer flex items-center justify-center"
+                aria-label="Search"
               >
-                Search
+                <FaSearch />
               </button>
             </div>
           </form>
