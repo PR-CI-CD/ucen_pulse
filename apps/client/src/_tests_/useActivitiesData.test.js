@@ -69,7 +69,7 @@ describe('useActivitiesData', () => {
     localStorage.setItem(LS_KEY, JSON.stringify(first));
 
     render(<ActivitiesProbe />);
-    expect(screen.getByTestId('count')).toHaveTextContent('1');
+    expect(screen.getByTesId('count')).toHaveTextContent('1');
 
     // same-tab write + custom event (what your form does)
     localStorage.setItem(LS_KEY, JSON.stringify(second));
