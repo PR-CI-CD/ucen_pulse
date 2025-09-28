@@ -3,7 +3,7 @@ import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import useActivitiesData from '../hooks/useActivitiesData';
 
-const LS_KEY = 'activitie';
+const LS_KEY = 'activities';
 
 // Helper: mount a component that shows count of items from the hook
 function ActivitiesProbe() {
