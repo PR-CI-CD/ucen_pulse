@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import AddActivityButton from './components/AddActivityButton';
 import AddActivityModal from "./components/AddActivityModal";
 import HealthMetricsModal from "./components/HealthMetricsModal";
+import Trends from "./components/Trends";
 
 function App() {
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -11,7 +12,10 @@ function App() {
 
   return (
     <div className="App">
+      {/*** NAVIGATION BAR ****/}
       <Navbar />
+
+      {/**** ACTION SECTION ****/}
 
       <section className="px-4 mt-10 sm:px-6 lg:px-10 py-3 w-full">
         <h1 className="text-2xl font-bold mb-4">Welcome, Michael</h1>
@@ -31,7 +35,14 @@ function App() {
             onClick={() => setIsMetricsOpen(true)}
           />
         </div>
-        
+      </section>
+
+      {/**** TRENDS SECTION ****/}
+
+      <section className="px-4 p-4 bg-blue-100mt-4 sm:px-6 lg:px-10 py-3 w-full">
+        <div className="">
+          <Trends />
+        </div>
       </section>
 
       {/* Modals */}
