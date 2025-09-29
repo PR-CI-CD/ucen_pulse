@@ -18,7 +18,7 @@ function App() {
       {/**** ACTION SECTION ****/}
 
       <section className="px-4 mt-10 sm:px-6 lg:px-10 py-3 w-full">
-        <h1 className="text-2xl font-bold mb-4">Welcome, Michael</h1>
+        <h1 className="text-2xl font-bold mb-4 text-[#333]">Welcome, Michael</h1>
 
         {/* Activity button */}
         <AddActivityButton

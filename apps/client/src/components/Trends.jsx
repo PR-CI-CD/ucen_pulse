@@ -107,9 +107,9 @@ export default function Trends() {
   );
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="flex flex-col gap-6">
       {/* Activities */}
-      <section className="rounded-sm border bg-white p-4 dark:bg-neutral-900">
+       <section className="rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
           <h2 className="text-base font-semibold">Activity Trends</h2>
           <div className="ml-auto flex items-center gap-2">
@@ -131,20 +131,20 @@ export default function Trends() {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={activityData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
               <XAxis dataKey="period" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="duration" name="Total Minutes" dot />
-              <Line type="monotone" dataKey="sessions" name="Sessions" strokeDasharray="5 5" dot />
+              <Line type="monotone" stroke="#f9951c"  dataKey="duration" name="Total Minutes" fill="#f9951c"  dot={{ r: 4, stroke: "#f9951c", fill: "white" }} />
+              <Line type="monotone" dataKey="sessions" name="Sessions" strokeDasharray="5 5" fill="#f9951c"  dot />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </section>
 
       {/* Metrics */}
-      <section className="rounded-sm border bg-white p-4 dark:bg-neutral-900">
+      <section className="rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
           <h2 className="text-base font-semibold">Health Metrics Trends</h2>
           <div className="ml-auto flex items-center gap-2">
@@ -166,13 +166,13 @@ export default function Trends() {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={metricData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid stroke="#eee" strokeDasharray="3 3"  />
               <XAxis dataKey="period" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="total" name="Total Value" />
-              <Bar dataKey="entries" name="Entries" />
+              <Bar dataKey="total" name="Total Value" fill="#f9951c" />
+              <Bar dataKey="entries" name="Entries" fill="#333333" />
             </BarChart>
           </ResponsiveContainer>
         </div>

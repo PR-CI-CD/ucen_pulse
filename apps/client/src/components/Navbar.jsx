@@ -128,7 +128,7 @@ export default function Navbar(props) {
                 className="py-2 px-4 text-sm bg-transparent text-black border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer flex items-center justify-center"
                 aria-label="Search"
               >
-                <FaSearch />
+                <FaSearch className="text-gray-500" />
               </button>
             </div>
           </form>
