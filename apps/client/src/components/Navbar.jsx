@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
+
+
 /**
  * Props (all optional):
  * - onSearch: (query) => void
@@ -101,10 +103,20 @@ export default function Navbar(props) {
       <nav className="bg-white text-gray-900 shadow-sm">
         <div className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3">
 
-          {/* Logo */}
-          <a href="/" aria-label="Home" className="flex items-center gap-2">
-            <img src="/logo2.svg" alt="UCEN Pulse" className="h-8 w-auto block" />
-          </a>
+<a href="/" aria-label="Home" className="flex items-center gap-2">
+  {/* Desktop & up (lg+): BIG wordmark */}
+  <img
+    src="/logopng.png"
+    alt="UCEN Pulse"
+    className="h-8 w-auto hidden lg:block"
+  />
+  {/* Mobile & tablet (< lg): small emblem */}
+  <img
+    src="/Emblem.png"
+    alt="UCEN Pulse Emblem"
+    className="h-8 w-auto block lg:hidden"
+  />
+</a>
 
           {/* Desktop search (md+) */}
           <form
@@ -119,7 +131,7 @@ export default function Navbar(props) {
                 id="desktop-record-search"
                 type="search"
                 placeholder="Search..."
-                className="w-full border rounded-md px-3 h-10 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border rounded-md px-3 h-10 text-textmuted placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={queryDesktop}
                 onChange={(e) => setQueryDesktop(e.target.value)}
               />
@@ -128,7 +140,7 @@ export default function Navbar(props) {
                 className="py-2 px-4 text-sm bg-transparent text-black border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer flex items-center justify-center"
                 aria-label="Search"
               >
-                <FaSearch className="text-gray-500" />
+                <FaSearch className="text-textmuted" />
               </button>
             </div>
           </form>
@@ -187,7 +199,7 @@ export default function Navbar(props) {
                       ref={(el) => (avatarItemRefs.current[i] = el)}
                       role="menuitem"
                       href={item.href}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                      className="block w-full text-left px-4 py-2 text-sm text-textmuted font-semibold hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                     >
                       {item.label}
                     </a>

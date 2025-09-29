@@ -111,7 +111,7 @@ export default function Trends() {
       {/* Activities */}
        <section className="rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
-          <h2 className="text-base font-semibold">Activity Trends</h2>
+          <h2 className="text-base font-semibold text-primary">Activity Trends</h2>
           <div className="ml-auto flex items-center gap-2">
             <label className="text-sm" htmlFor="a-mode">View:</label>
             <select id="a-mode" className="rounded-md border px-2 py-1 text-sm"
@@ -136,17 +136,17 @@ export default function Trends() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" stroke="#f9951c"  dataKey="duration" name="Total Minutes" fill="#f9951c"  dot={{ r: 4, stroke: "#f9951c", fill: "white" }} />
-              <Line type="monotone" dataKey="sessions" name="Sessions" strokeDasharray="5 5" fill="#f9951c"  dot />
+              <Line type="monotone" stroke="#1814F3"  dataKey="duration" name="Total Minutes" fill="#1814F3"  dot={{ r: 4, stroke: "#1814F3", fill: "#16DBCC" }} />
+              <Line type="monotone" dataKey="sessions" name="Sessions" strokeDasharray="5 5" fill="#16DBCC"  dot />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </section>
 
       {/* Metrics */}
-      <section className="rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
+      <section className="rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
-          <h2 className="text-base font-semibold">Health Metrics Trends</h2>
+          <h2 className="text-base font-semibold text-primary">Health Metrics Trends</h2>
           <div className="ml-auto flex items-center gap-2">
             <label className="text-sm" htmlFor="m-mode">View:</label>
             <select id="m-mode" className="rounded-md border px-2 py-1 text-sm"
@@ -171,8 +171,8 @@ export default function Trends() {
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="total" name="Total Value" fill="#f9951c" />
-              <Bar dataKey="entries" name="Entries" fill="#333333" />
+              <Bar dataKey="total" name="Total Value" fill="#1814F3" />
+              <Bar dataKey="entries" name="Entries" fill="#16DBCC" />
             </BarChart>
           </ResponsiveContainer>
         </div>

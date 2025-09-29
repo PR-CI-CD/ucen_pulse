@@ -18,7 +18,7 @@ export default function AddActivityButton({
       onClick={handleClick}
       aria-haspopup="dialog"
       aria-expanded={open}
-      className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+      className="rounded-md bg-button px-4 py-2 text-[15px] font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
     >
       {label}
     </button>

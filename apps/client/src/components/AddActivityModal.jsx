@@ -124,13 +124,13 @@ export default function AddActivityModal({ open, onClose }) {
             >
                 <form onSubmit={handleSubmit} noValidate className="space-y-4">
                     <header className="flex items-center justify-between gap-3">
-                        <h2 id="add-activity-title" className="text-lg font-semibold">
+                        <h2 id="add-activity-title" className="text-[18px] font-semibold">
                             Add Activity
                         </h2>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-md border px-3 py-1 text-sm hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="rounded-md border px-3 py-1 text-[15px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-600"
                             aria-label="Close"
                         >
                             Close
@@ -150,7 +150,7 @@ export default function AddActivityModal({ open, onClose }) {
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div>
-                            <label htmlFor="date" className="mb-1 block text-sm font-medium">
+                            <label htmlFor="date" className="mb-1 block text-[13px] font-medium text-textmuted">
                                 Date
                             </label>
                             <input
@@ -167,7 +167,7 @@ export default function AddActivityModal({ open, onClose }) {
                         </div>
 
                         <div>
-                            <label htmlFor="type" className="mb-1 block text-sm font-medium">
+                            <label htmlFor="type" className="mb-1 block text-[13px] font-medium text-textmuted">
                                 Activity Type
                             </label>
                             <select
@@ -196,7 +196,7 @@ export default function AddActivityModal({ open, onClose }) {
                         <div>
                             <label
                                 htmlFor="duration"
-                                className="mb-1 block text-sm font-medium"
+                                className="mb-1 block text-[13px] font-medium text-textmuted"
                             >
                                 Duration (minutes)
                             </label>
@@ -217,7 +217,7 @@ export default function AddActivityModal({ open, onClose }) {
                         </div>
 
                         <div>
-                            <label htmlFor="notes" className="mb-1 block text-sm font-medium">
+                            <label htmlFor="notes" className="mb-1 block text-[13px] font-medium text-textmuted">
                                 Notes (optional)
                             </label>
                             <textarea
@@ -241,7 +241,7 @@ export default function AddActivityModal({ open, onClose }) {
                         </button>
                         <button
                             type="submit"
-                            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="rounded-md bg-button px-4 py-2 text-[15px] font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                         >
                             Save Activity
                         </button>
