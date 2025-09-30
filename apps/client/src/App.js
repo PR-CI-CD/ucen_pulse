@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import AddActivityButton from './components/AddActivityButton';
 import AddActivityModal from "./components/AddActivityModal";
 import HealthMetricsModal from "./components/HealthMetricsModal";
+import DashboardOverview from "./components/DashboardOverview";
 import Trends from "./components/Trends";
 
 function App() {
@@ -42,6 +43,11 @@ function App() {
           </div>
         </div>
       </section>
+
+      <section className="px-4  sm:px-6 lg:px-10 py-3 w-full">
+        <DashboardOverview />
+      </section>
+      
 
       {/**** TRENDS SECTION ****/}
       <section className="px-4 p-4 mt-4 sm:px-4 lg:px-10 py-3 w-full overflow-auto">

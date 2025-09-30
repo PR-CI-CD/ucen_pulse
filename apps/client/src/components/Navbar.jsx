@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
-
-
 /**
  * Props (all optional):
  * - onSearch: (query) => void
@@ -103,20 +101,20 @@ export default function Navbar(props) {
       <nav className="bg-white text-gray-900 shadow-sm">
         <div className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-10 py-3">
 
-<a href="/" aria-label="Home" className="flex items-center gap-2">
-  {/* Desktop & up (lg+): BIG wordmark */}
-  <img
-    src="/logopng.png"
-    alt="UCEN Pulse"
-    className="h-8 w-auto hidden lg:block"
-  />
-  {/* Mobile & tablet (< lg): small emblem */}
-  <img
-    src="/Emblem.png"
-    alt="UCEN Pulse Emblem"
-    className="h-8 w-auto block lg:hidden"
-  />
-</a>
+          <a href="/" aria-label="Home" className="flex items-center gap-2">
+            {/* Desktop & up (lg+): BIG wordmark */}
+            <img
+              src="/logopng.png"
+              alt="UCEN Pulse"
+              className="h-8 w-auto hidden lg:block"
+            />
+            {/* Mobile & tablet (< lg): small emblem */}
+            <img
+              src="/Emblem.png"
+              alt="UCEN Pulse Emblem"
+              className="h-8 w-auto block lg:hidden"
+            />
+          </a>
 
           {/* Desktop search (md+) */}
           <form
@@ -175,7 +173,7 @@ export default function Navbar(props) {
             </button>
 
             {/* Hover bridge */}
-            <div aria-hidden className="absolute left-0 right-0 top-full h-2" />
+        <div aria-hidden className="absolute left-0 right-0 top-full h-2" />
 
             <div
               className={`absolute right-0 top-full w-48 rounded-lg border bg-white shadow-lg transition
