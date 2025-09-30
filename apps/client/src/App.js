@@ -11,7 +11,7 @@ function App() {
   const [isMetricsOpen, setIsMetricsOpen] = useState(false);
 
   return (
-    <div className="App bg-[#F5F7FA]">
+    <div className="App bg-[#F5F7FA] min-h-screen overflow-x-hidden">
       {/*** NAVIGATION BAR ****/}
       <Navbar />
 
@@ -21,11 +21,11 @@ function App() {
         <h1 className="text-[28px] font-bold mb-4 text-primary">Welcome, Michael</h1>
 
 
-        <div className="flexsm:flex-row gap-3">
+        <div className="flexsm: flex-row gap-3">
 
             <div className="flex justify-between">
 
-              <div className="flex flex-col gap-3">
+              <div className="flex  gap-3">
                 {/* Activity button */}
                 <AddActivityButton
                   label="+ Add Activity"
@@ -53,11 +53,15 @@ function App() {
 
       {/**** TRENDS SECTION ****/}
 
-      <section className="px-4 p-4 mt-4 sm:px-6 lg:px-10 py-3 w-full">
+      <section className="px-4 p-4 mt-4 sm:px-6 lg:px-10 py-3 w-full overflow-auto">
         <div className="">
           <Trends />
         </div>
       </section>
+
+      <sction>
+        hello
+      </sction>
 
       {/* Modals */}
       <AddActivityModal open={isAddOpen} onClose={() => setIsAddOpen(false)} />

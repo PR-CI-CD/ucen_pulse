@@ -107,9 +107,9 @@ export default function Trends() {
   );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex justify-between gap-6">
       {/* Activities */}
-       <section className="rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
+       <section className=" w-full rounded-xl  shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
           <h2 className="text-base font-semibold text-primary">Activity Trends</h2>
           <div className="ml-auto flex items-center gap-2">
@@ -128,7 +128,7 @@ export default function Trends() {
           </div>
         </header>
 
-        <div className="h-64">
+        <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={activityData}>
               <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
