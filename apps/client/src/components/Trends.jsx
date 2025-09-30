@@ -128,7 +128,7 @@ export default function Trends() {
           </div>
         </header>
 
-        <div className="h-64 w-full">
+        <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={activityData}>
               <CartesianGrid stroke="#eee" strokeDasharray="3 3" />
@@ -147,7 +147,7 @@ export default function Trends() {
       <section className="rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex flex-wrap items-center gap-3">
           <h2 className="text-base font-semibold text-primary">Health Metrics Trends</h2>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <label className="text-sm" htmlFor="m-mode">View:</label>
             <select id="m-mode" className="rounded-md border px-2 py-1 text-sm"
               value={metricMode} onChange={(e) => setMetricMode(e.target.value)}>
@@ -163,7 +163,7 @@ export default function Trends() {
           </div>
         </header>
 
-        <div className="h-64">
+        <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={metricData}>
               <CartesianGrid stroke="#eee" strokeDasharray="3 3"  />

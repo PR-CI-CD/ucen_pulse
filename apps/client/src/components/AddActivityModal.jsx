@@ -124,7 +124,7 @@ export default function AddActivityModal({ open, onClose }) {
             >
                 <form onSubmit={handleSubmit} noValidate className="space-y-4">
                     <header className="flex items-center justify-between gap-3">
-                        <h2 id="add-activity-title" className="text-[18px] font-semibold">
+                        <h2 id="add-activity-title" className="text-[18px] text-primary font-semibold">
                             Add Activity
                         </h2>
                         <button

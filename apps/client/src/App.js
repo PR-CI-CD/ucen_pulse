@@ -19,41 +19,32 @@ function App() {
 
       <section className="px-4 mt-10 sm:px-6 lg:px-10 py-3 w-full">
         <h1 className="text-[28px] font-bold mb-4 text-primary">Welcome, Michael</h1>
+        <div>
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            {/* Activity button */}
+            <AddActivityButton
+              label="+ Add Activity"
+              open={isAddOpen}
+              onClick={() => setIsAddOpen(true)}
+            />
 
+            {/* Health metrics button */}
+            <AddActivityButton
+              label="+ Add Metrics"
+              open={isMetricsOpen}
+              onClick={() => setIsMetricsOpen(true)}
 
-        <div className="flexsm: flex-row gap-3">
+            />
+          </div>
 
-            <div className="flex justify-between">
-
-              <div className="flex  gap-3">
-                {/* Activity button */}
-                <AddActivityButton
-                  label="+ Add Activity"
-                  open={isAddOpen}
-                  onClick={() => setIsAddOpen(true)}
-                />
-
-                {/* Health metrics button */}
-                <AddActivityButton
-                  label="+ Add Metrics"
-                  open={isMetricsOpen}
-                  onClick={() => setIsMetricsOpen(true)}
-
-                />
-              </div>
-
-              <div>
-                OTHER CONTENT
-              </div>
-
+          <div>
+            OTHER CONTENT
           </div>
         </div>
-
       </section>
 
       {/**** TRENDS SECTION ****/}
-
-      <section className="px-4 p-4 mt-4 sm:px-6 lg:px-10 py-3 w-full overflow-auto">
+      <section className="px-4 p-4 mt-4 sm:px-4 lg:px-10 py-3 w-full overflow-auto">
         <div className="">
           <Trends />
         </div>

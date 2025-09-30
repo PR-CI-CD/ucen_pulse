@@ -127,7 +127,7 @@ export default function HealthMetricsModal({ open, onClose }) {
       >
         <form onSubmit={handleSubmit} noValidate className="space-y-4">
           <header className="flex items-center justify-between gap-3">
-            <h2 id="add-metric-title" className="text-lg font-semibold">
+            <h2 id="add-metric-title" className="text-[18px] text-primary font-semibold">
               Add Health Metric
             </h2>
             <button
@@ -153,7 +153,7 @@ export default function HealthMetricsModal({ open, onClose }) {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="metric-date" className="mb-1 block text-sm font-medium">
+              <label htmlFor="metric-date" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Date
               </label>
               <input
@@ -168,7 +168,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </div>
 
             <div>
-              <label htmlFor="metric-type" className="mb-1 block text-sm font-medium">
+              <label htmlFor="metric-type" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Metric Type
               </label>
               <select
@@ -190,7 +190,7 @@ export default function HealthMetricsModal({ open, onClose }) {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="metric-value" className="mb-1 block text-sm font-medium">
+              <label htmlFor="metric-value" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Value
               </label>
               <input
@@ -216,7 +216,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </div>
 
             <div>
-              <label htmlFor="metric-notes" className="mb-1 block text-sm font-medium">
+              <label htmlFor="metric-notes" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Notes (optional)
               </label>
               <textarea
@@ -240,7 +240,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </button>
             <button
               type="submit"
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+               className="rounded-md bg-button px-4 py-2 text-[15px] font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               Save Metric
             </button>
