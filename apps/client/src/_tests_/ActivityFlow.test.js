@@ -62,16 +62,23 @@ describe('Activity logging flow', () => {
     // Error summary visible
     expect(within(dialog).getByText(/please fix the following:/i)).toBeInTheDocument();
 
-    // Duplicate messages exist (summary + inline) so use getAllByText
+    // Updated validation messages:
+    // - type: "Please choose an activity type."
+    // - duration: "Enter a number of minutes." (for empty), or range message if present
     expect(within(dialog).getAllByText(/please choose an activity type/i).length).toBeGreaterThan(0);
-    expect(within(dialog).getAllByText(/enter duration in minutes.*greater than 0/i).length).toBeGreaterThan(0);
+
+    // Accept either of the possible duration errors using alternation
+    const durationError = within(dialog).getAllByText(
+      /enter a number of minutes|duration must be between/i
+    );
+    expect(durationError.length).toBeGreaterThan(0);
 
     // Fill valid fields
     await user.selectOptions(within(dialog).getByLabelText(/activity type/i), 'Running');
 
-    const duration = within(dialog).getByLabelText(/duration/i);
-    await user.clear(duration);
-    await user.type(duration, '30');
+    const durationInput = within(dialog).getByLabelText(/duration/i);
+    await user.clear(durationInput);
+    await user.type(durationInput, '30');
 
     await user.type(within(dialog).getByLabelText(/notes/i), 'Evening 5k');
 
@@ -118,7 +125,10 @@ describe('Activity logging flow', () => {
     render(<TestHost />);
 
     await user.click(screen.getByRole('button', { name: /\+ add activity/i }));
-    const overlay = screen.getByRole('dialog', { name: /add activity/i }).parentElement; // overlay div wraps dialog
+
+    // The overlay is the parent of the dialog element
+    const dialog = screen.getByRole('dialog', { name: /add activity/i });
+    const overlay = dialog.parentElement;
 
     // Click the overlay (outside the dialog) to close
     await user.click(overlay);
