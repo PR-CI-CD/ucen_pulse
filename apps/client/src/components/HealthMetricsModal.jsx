@@ -7,6 +7,15 @@ import React, { useEffect, useRef, useState } from 'react';
  */
 
 const LS_KEY = 'metrics';
+const METRIC_TYPES = ['Steps', 'Water', 'Sleep', 'Calories'];
+const NOTES_MAX_LEN = 500;
+
+const LIMITS = {
+  Steps:   { min: 1,     max: 100000, step: 1,    integer: true,  unit: 'steps'  },
+  Water:   { min: 0.1,   max: 10,     step: 0.1,  integer: false, unit: 'L'      },
+  Sleep:   { min: 0.25,  max: 24,     step: 0.25, integer: false, unit: 'hours'  },
+  Calories:{ min: 1,     max: 10000,  step: 1,    integer: true,  unit: 'kcal'   },
+};
 
 function loadMetrics() {
   try {
@@ -25,22 +34,34 @@ function uid() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
-const UNIT_BY_TYPE = {
-  Steps: 'steps',
-  Water: 'L',
-  Sleep: 'hours',
-  Calories: 'kcal',
-};
+// --- validation helpers ---
+function isValidISODateString(str) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
+  const d = new Date(str);
+  return !Number.isNaN(d.getTime()) && str === d.toISOString().slice(0, 10);
+}
+
+function isInFuture(iso) {
+  const today = new Date();
+  const endOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59, 999);
+  return new Date(iso).getTime() > endOfToday.getTime();
+}
+
+function parseNumber(value, integer) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  return integer ? Math.trunc(n) : n;
+}
 
 export default function HealthMetricsModal({ open, onClose }) {
   const overlayRef = useRef(null);
-  const dialogRef = useRef(null);
+  const dialogRef   = useRef(null);
 
-  const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
-  const [type, setType] = useState('');
-  const [value, setValue] = useState('');
-  const [notes, setNotes] = useState('');
-  const [errors, setErrors] = useState({});
+  const [date, setDate]       = useState(() => new Date().toISOString().slice(0, 10));
+  const [type, setType]       = useState('');
+  const [value, setValue]     = useState('');
+  const [notes, setNotes]     = useState('');
+  const [errors, setErrors]   = useState({});
 
   // Close on Esc
   useEffect(() => {
@@ -74,26 +95,85 @@ export default function HealthMetricsModal({ open, onClose }) {
     if (e.target === overlayRef.current) onClose();
   };
 
+  const currentLimits = type && LIMITS[type] ? LIMITS[type] : null;
+
   const validate = () => {
-    const e = {};
-    if (!date) e.date = 'Please select a date.';
-    if (!type) e.type = 'Please choose a metric type.';
-    const n = Number(value);
-    if (!value || Number.isNaN(n) || n <= 0) e.value = 'Enter a numeric value (greater than 0).';
-    setErrors(e);
-    return Object.keys(e).length === 0;
+    const nextErrors = {};
+
+    // Date
+    if (!date) {
+      nextErrors.date = 'Please select a date.';
+    } else if (!isValidISODateString(date)) {
+      nextErrors.date = 'Enter a valid date (YYYY-MM-DD).';
+    } else if (isInFuture(date)) {
+      nextErrors.date = 'Date cannot be in the future.';
+    }
+
+    // Type
+    const trimmedType = String(type).trim();
+    if (!trimmedType) {
+      nextErrors.type = 'Please choose a metric type.';
+    } else if (!METRIC_TYPES.includes(trimmedType)) {
+      nextErrors.type = 'Choose a valid metric type from the list.';
+    }
+
+    // Value (type-aware)
+    if (!trimmedType || !LIMITS[trimmedType]) {
+      // If type invalid, we can’t validate numerical range reliably
+      if (!value) {
+        nextErrors.value = 'Enter a numeric value.';
+      } else if (parseNumber(value, false) === null) {
+        nextErrors.value = 'Enter a numeric value.';
+      }
+    } else {
+      const { min, max, integer } = LIMITS[trimmedType];
+      const parsed = parseNumber(value, integer);
+      if (parsed === null) {
+        nextErrors.value = 'Enter a numeric value.';
+      } else if (parsed < min || parsed > max) {
+        nextErrors.value = `Value must be between ${min} and ${max}.`;
+      } else if (integer && !Number.isInteger(Number(value))) {
+        // catch non-integer inputs like "10.5" for integer metrics
+        nextErrors.value = 'Enter a whole number.';
+      }
+    }
+
+    // Notes
+    const trimmedNotes = notes.trim();
+    if (trimmedNotes.length > NOTES_MAX_LEN) {
+      nextErrors.notes = `Notes must be ${NOTES_MAX_LEN} characters or fewer.`;
+    }
+
+    setErrors(nextErrors);
+
+    // Focus first invalid
+    const firstErrorFieldId = ['metric-date', 'metric-type', 'metric-value', 'metric-notes']
+      .find((id) => {
+        const key = id.replace('metric-', '');
+        return nextErrors[key];
+      });
+    if (firstErrorFieldId) {
+      requestAnimationFrame(() => {
+        const el = dialogRef.current?.querySelector(`#${firstErrorFieldId}`);
+        el?.focus();
+      });
+    }
+
+    return Object.keys(nextErrors).length === 0;
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
     if (!validate()) return;
 
-    const unit = UNIT_BY_TYPE[type] || '';
+    const { unit, integer } = LIMITS[type] || { unit: '', integer: false };
+    const parsedValue = parseNumber(value, integer);
+
     const entry = {
       id: uid(),
       dateISO: date,
       type,
-      value: Number(value),
+      value: parsedValue,
       unit,
       notes: notes.trim(),
       createdAt: Date.now(),
@@ -144,9 +224,10 @@ export default function HealthMetricsModal({ open, onClose }) {
             <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800">
               <p className="font-medium">Please fix the following:</p>
               <ul className="list-disc pl-5">
-                {errors.type && <li>Please choose a metric type.</li>}
-                {errors.value && <li>Enter a numeric value (greater than 0).</li>}
-                {errors.date && <li>Please select a date.</li>}
+                {errors.type  && <li>{errors.type}</li>}
+                {errors.value && <li>{errors.value}</li>}
+                {errors.date  && <li>{errors.date}</li>}
+                {errors.notes && <li>{errors.notes}</li>}
               </ul>
             </div>
           )}
@@ -163,8 +244,15 @@ export default function HealthMetricsModal({ open, onClose }) {
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 required
+                aria-invalid={!!errors.date}
+                aria-describedby={errors.date ? 'metric-date-error' : undefined}
+                max={new Date().toISOString().slice(0, 10)}
               />
-              {errors.date && <p className="mt-1 text-sm text-red-700">{errors.date}</p>}
+              {errors.date && (
+                <p id="metric-date-error" className="mt-1 text-sm text-red-700">
+                  {errors.date}
+                </p>
+              )}
             </div>
 
             <div>
@@ -177,40 +265,55 @@ export default function HealthMetricsModal({ open, onClose }) {
                 onChange={(e) => setType(e.target.value)}
                 className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 required
+                aria-invalid={!!errors.type}
+                aria-describedby={errors.type ? 'metric-type-error' : undefined}
               >
                 <option value="">Select metric…</option>
-                <option>Steps</option>
-                <option>Water</option>
-                <option>Sleep</option>
-                <option>Calories</option>
+                {METRIC_TYPES.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
               </select>
-              {errors.type && <p className="mt-1 text-sm text-red-700">Please choose a metric type.</p>}
+              {errors.type && (
+                <p id="metric-type-error" className="mt-1 text-sm text-red-700">
+                  {errors.type}
+                </p>
+              )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label htmlFor="metric-value" className="mb-1 block text-[13px] font-medium text-textmuted">
-                Value
+                Value {type && currentLimits ? `(${currentLimits.unit})` : ''}
               </label>
               <input
                 id="metric-value"
                 type="number"
                 inputMode="numeric"
-                min="0"
-                step="any"
+                min={currentLimits?.min ?? 0}
+                max={currentLimits?.max ?? undefined}
+                step={currentLimits?.step ?? 'any'}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 required
+                aria-invalid={!!errors.value}
+                aria-describedby={errors.value ? 'metric-value-error' : undefined}
+                onBlur={(e) => {
+                  if (!currentLimits) return;
+                  const parsed = parseNumber(e.target.value, currentLimits.integer);
+                  setValue(parsed === null ? '' : String(parsed));
+                }}
               />
               {errors.value && (
-                <p className="mt-1 text-sm text-red-700">Enter a numeric value (greater than 0).</p>
+                <p id="metric-value-error" className="mt-1 text-sm text-red-700">
+                  {errors.value}
+                </p>
               )}
-              {/* Unit hint */}
-              {type && (
+              {type && currentLimits && (
                 <p className="mt-1 text-xs text-neutral-600">
-                  Unit: <span className="font-medium">{UNIT_BY_TYPE[type]}</span>
+                  Range: {currentLimits.min}–{currentLimits.max} {currentLimits.unit}
+                  {currentLimits.integer ? ' (whole numbers only)' : ''}
                 </p>
               )}
             </div>
@@ -226,7 +329,18 @@ export default function HealthMetricsModal({ open, onClose }) {
                 onChange={(e) => setNotes(e.target.value)}
                 className="w-full rounded-md border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 placeholder="Any context to remember…"
+                aria-invalid={!!errors.notes}
+                aria-describedby={errors.notes ? 'metric-notes-error' : undefined}
+                maxLength={NOTES_MAX_LEN}
               />
+              <div className="mt-1 flex justify-between text-xs text-neutral-500">
+                <span>{NOTES_MAX_LEN - notes.length} characters left</span>
+              </div>
+              {errors.notes && (
+                <p id="metric-notes-error" className="mt-1 text-sm text-red-700">
+                  {errors.notes}
+                </p>
+              )}
             </div>
           </div>
 
@@ -240,7 +354,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </button>
             <button
               type="submit"
-               className="rounded-md bg-button px-4 py-2 text-[15px] font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="rounded-md bg-button px-4 py-2 text-[15px] font-semibold text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               Save Metric
             </button>

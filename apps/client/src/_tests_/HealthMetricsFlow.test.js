@@ -52,15 +52,19 @@ describe('Health metrics logging flow', () => {
 
     // Error summary present
     expect(within(dialog).getByText(/please fix the following/i)).toBeInTheDocument();
-    // Duplicate messages across summary + inline -> getAllByText
+
+    // Duplicate messages across summary + inline -> use getAllByText
     expect(within(dialog).getAllByText(/please choose a metric type/i).length).toBeGreaterThan(0);
-    expect(within(dialog).getAllByText(/enter a numeric value.*greater than 0/i).length).toBeGreaterThan(0);
+
+    // Value error can be "Enter a numeric value." or a range message
+    const valueErrors = within(dialog).getAllByText(/enter a numeric value\.|value must be between/i);
+    expect(valueErrors.length).toBeGreaterThan(0);
 
     // Fill valid form
     await user.selectOptions(within(dialog).getByLabelText(/metric type/i), 'Water');
-    const value = within(dialog).getByLabelText(/value/i);
-    await user.clear(value);
-    await user.type(value, '2');
+    const valueInput = within(dialog).getByLabelText(/value/i);
+    await user.clear(valueInput);
+    await user.type(valueInput, '2');
     await user.type(within(dialog).getByLabelText(/notes/i), 'Hydrated well');
 
     await user.click(saveBtn);
@@ -99,3 +103,4 @@ describe('Health metrics logging flow', () => {
     });
   });
 });
+
