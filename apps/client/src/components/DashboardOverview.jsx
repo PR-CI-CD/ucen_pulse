@@ -41,28 +41,17 @@ function groupByType(items) {
 function computeActivityProgress(activities, limit = 3) {
   const progressList = [];
   const grouped = groupByType(activities);
-
   grouped.forEach((list, type) => {
     const sortedByDate = [...list].sort(sortByMostRecent);
     if (sortedByDate.length < 2) return;
-
     const previousSession = sortedByDate[1];
     const latestSession = sortedByDate[0];
-
     const previousDate = getEntryDate(previousSession);
     const latestDate = getEntryDate(latestSession);
-
     const durationChange =
       Number(latestSession.duration ?? 0) - Number(previousSession.duration ?? 0);
-
-    progressList.push({
-      type,
-      delta: durationChange,
-      from: previousDate,
-      to: latestDate,
-    });
+    progressList.push({ type, delta: durationChange, from: previousDate, to: latestDate });
   });
-
   progressList.sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
   return progressList.slice(0, limit);
 }
@@ -70,29 +59,17 @@ function computeActivityProgress(activities, limit = 3) {
 function computeMetricProgress(metrics, limit = 3) {
   const progressList = [];
   const grouped = groupByType(metrics);
-
   grouped.forEach((list, type) => {
     const sortedByDate = [...list].sort(sortByMostRecent);
     if (sortedByDate.length < 2) return;
-
     const previousEntry = sortedByDate[1];
     const latestEntry = sortedByDate[0];
-
     const previousDate = getEntryDate(previousEntry);
     const latestDate = getEntryDate(latestEntry);
-
     const valueChange = Number(latestEntry.value ?? 0) - Number(previousEntry.value ?? 0);
     const unit = latestEntry.unit || previousEntry.unit || "";
-
-    progressList.push({
-      type,
-      delta: valueChange,
-      unit,
-      from: previousDate,
-      to: latestDate,
-    });
+    progressList.push({ type, delta: valueChange, unit, from: previousDate, to: latestDate });
   });
-
   progressList.sort((x, y) => Math.abs(y.delta) - Math.abs(x.delta));
   return progressList.slice(0, limit);
 }
@@ -114,9 +91,18 @@ export default function DashboardOverview() {
   const metricProgress = useMemo(() => computeMetricProgress(metrics, 3), [metrics]);
 
   return (
-    <section className="flex flex-wrap gap-6">
+    <section
+      className="
+        flex flex-wrap gap-6
+        [&>div]:basis-full
+        md:[&>div]:basis-[calc(50%-0.75rem)]
+        xl:[&>div]:basis-[calc(33.333%-1rem)]
+        md:[&>div:nth-child(3)]:basis-full
+        xl:[&>div:nth-child(3)]:basis-[calc(33.333%-1rem)]
+      "
+    >
       {/* CARD 1: Key Metrics */}
-      <div className="basis-full md:basis-[calc(50%-0.75rem)] xl:basis-[calc(33.333%-1rem)] rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
+      <div className="rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3">
           <h2 className="text-base font-semibold text-primary">Key Metrics</h2>
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -126,9 +112,7 @@ export default function DashboardOverview() {
 
         <div className="grid grid-cols-1 gap-4">
           <div className="rounded-lg border p-3 dark:border-neutral-800">
-            <div className="text-xs uppercase tracking-wide text-neutral-500">
-              Most Common Activity
-            </div>
+            <div className="text-xs uppercase tracking-wide text-neutral-500">Most Common Activity</div>
             <div className="mt-1 text-lg font-semibold">
               {mostCommonActivity ? mostCommonActivity.type : "—"}
             </div>
@@ -140,9 +124,7 @@ export default function DashboardOverview() {
           </div>
 
           <div className="rounded-lg border p-3 dark:border-neutral-800">
-            <div className="text-xs uppercase tracking-wide text-neutral-500">
-              Most Logged Metric
-            </div>
+            <div className="text-xs uppercase tracking-wide text-neutral-500">Most Logged Metric</div>
             <div className="mt-1 text-lg font-semibold">
               {mostCommonMetric ? mostCommonMetric.type : "—"}
             </div>
@@ -156,7 +138,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* CARD 2: Recent Activity */}
-      <div className="basis-full md:basis-[calc(50%-0.75rem)] xl:basis-[calc(33.333%-1rem)] rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
+      <div className="rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3 flex items-center justify-between">
           <div>
             <h2 className="text-base font-semibold text-primary">Recent Activity</h2>
@@ -197,8 +179,7 @@ export default function DashboardOverview() {
                   <div className="text-xs text-neutral-500">{fmtDate(activityDate)}</div>
                 </div>
                 <div className="text-sm text-neutral-600 dark:text-neutral-300">
-                  Duration:{" "}
-                  <span className="tabular-nums">{Number(activity.duration ?? 0)}</span> mins
+                  Duration: <span className="tabular-nums">{Number(activity.duration ?? 0)}</span> mins
                 </div>
               </li>
             );
@@ -207,7 +188,7 @@ export default function DashboardOverview() {
       </div>
 
       {/* CARD 3: Progress */}
-      <div className="basis-full md:basis-[calc(50%-0.75rem)] xl:basis-[calc(33.333%-1rem)] rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
+      <div className="rounded-xl shadow-md bg-white p-4 dark:bg-neutral-900">
         <header className="mb-3">
           <h2 className="text-base font-semibold text-primary">Progress</h2>
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
@@ -217,13 +198,9 @@ export default function DashboardOverview() {
 
         <div className="space-y-4">
           <div>
-            <div className="mb-1 text-xs uppercase tracking-wide text-neutral-500">
-              Activities
-            </div>
+            <div className="mb-1 text-xs uppercase tracking-wide text-neutral-500">Activities</div>
             {activityProgress.length === 0 ? (
-              <div className="text-sm text-neutral-500">
-                Need at least two sessions per activity type.
-              </div>
+              <div className="text-sm text-neutral-500">Need at least two sessions per activity type.</div>
             ) : (
               <ul className="space-y-2">
                 {activityProgress.map((progress) => (
@@ -254,13 +231,9 @@ export default function DashboardOverview() {
           </div>
 
           <div>
-            <div className="mb-1 text-xs uppercase tracking-wide text-neutral-500">
-              Metrics
-            </div>
+            <div className="mb-1 text-xs uppercase tracking-wide text-neutral-500">Metrics</div>
             {metricProgress.length === 0 ? (
-              <div className="text-sm text-neutral-500">
-                Need at least two entries per metric type.
-              </div>
+              <div className="text-sm text-neutral-500">Need at least two entries per metric type.</div>
             ) : (
               <ul className="space-y-2">
                 {metricProgress.map((progress) => (
