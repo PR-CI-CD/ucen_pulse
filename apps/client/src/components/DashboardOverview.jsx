@@ -3,7 +3,7 @@ import useActivitiesData from "../hooks/useActivitiesData";
 import useMetricsData from "../hooks/useMetricsData";
 
 // --- helpers ---
-const toDate = (d) => (d instanceof Date ? d : new Date(d ?? 0));
+const toDate = (d) => (d instanceof Date ? d : new Date(d ?? 0)); // --- d = date-like object (Date or ISO string) ---
 const fmtDate = (d) =>
   d.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 
