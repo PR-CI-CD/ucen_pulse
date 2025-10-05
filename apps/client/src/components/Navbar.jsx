@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import GlobalSearch from "./GlobalSearch";
 
 /**
  * Props (all optional):
@@ -120,7 +121,7 @@ export default function Navbar(props) {
           <form
             role="search"
             aria-label="Site search"
-            className="hidden md:block md:max-w-md md:w-full md:mx-6"
+            className="hidden md:block md:max-w-md md:w-full md:mx-6 relative"
             onSubmit={submitDesktop}
           >
             <label htmlFor="desktop-record-search" className="sr-only">Search for a record</label>
@@ -133,14 +134,13 @@ export default function Navbar(props) {
                 value={queryDesktop}
                 onChange={(e) => setQueryDesktop(e.target.value)}
               />
-              <button
-                type="submit"
-                className="py-2 px-4 text-sm bg-transparent text-black border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer flex items-center justify-center"
-                aria-label="Search"
-              >
+              <button type="submit" className="py-2 px-4 text-sm bg-transparent text-black border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer flex items-center justify-center">
                 <FaSearch className="text-textmuted" />
               </button>
             </div>
+
+            {/* Results dropdown */}
+            <GlobalSearch value={queryDesktop} />
           </form>
 
           {/* Desktop avatar dropdown (md+) */}
