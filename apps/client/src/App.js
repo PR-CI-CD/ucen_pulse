@@ -64,7 +64,7 @@ export default function App() {
   return (
     <div className="App bg-[#F5F7FA] min-h-screen overflow-x-hidden">
       <header>
-        <Navbar /> {/* Navbar component should start with <nav> */}
+        <Navbar />
       </header>
 
       <main id="main-content">
