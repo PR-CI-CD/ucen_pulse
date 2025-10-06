@@ -130,7 +130,7 @@ export default function Navbar(props) {
         </div>
 
         {/* Results dropdown: ensure it provides role="listbox" and an id */}
-        <GlobalSearch value={queryDesktop} /* id="desktop-search-results" */ />
+        <GlobalSearch value={queryDesktop} controlId="desktop-record-search" />
       </form>
 
       {/* Desktop avatar dropdown (md+) */}
