@@ -232,7 +232,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
             <div>
               <label htmlFor="metric-date" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Date
@@ -281,7 +281,7 @@ export default function HealthMetricsModal({ open, onClose }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
             <div>
               <label htmlFor="metric-value" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Value {type && currentLimits ? `(${currentLimits.unit})` : ''}

@@ -44,7 +44,7 @@ function Home() {
       </section>
 
       <section
-        className="px-4 p-4 mt-4 sm:px-4 lg:px-10 py-3 w-full overflow-auto"
+        className="px-4 p-4  sm:px-4 lg:px-10 py-3 w-full overflow-auto"
         aria-labelledby="trends-heading"
       >
         <h2 id="trends-heading" className="sr-only">Trends</h2>

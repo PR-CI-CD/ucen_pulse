@@ -217,7 +217,7 @@ export default function AddActivityModal({ open, onClose }) {
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
             <div>
               <label htmlFor="date" className="mb-1 block text-[13px] font-medium text-textmuted">
                 Date
@@ -266,7 +266,7 @@ export default function AddActivityModal({ open, onClose }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="flex flex-col gap-4">
             <div>
               <label
                 htmlFor="duration"
