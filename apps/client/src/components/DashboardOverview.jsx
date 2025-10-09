@@ -5,7 +5,13 @@ import useMetricsData from "../hooks/useMetricsData";
 // --- helpers ---
 const toDate = (d) => (d instanceof Date ? d : new Date(d ?? 0));
 const fmtDate = (d) =>
-  d.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
+  d.toLocaleDateString(undefined, {
+
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+
+  });
 
 function getEntryDate(entry) {
   return toDate(entry.dateISO || entry.date || entry.createdAt);
@@ -264,9 +270,8 @@ export default function DashboardOverview() {
                         )}
                       </div>
                       <div
-                        className={`shrink-0 font-semibold tabular-nums ${
-                          isUp ? "text-emerald-600" : "text-rose-600"
-                        }`}
+                        className={`shrink-0 font-semibold tabular-nums ${isUp ? "text-emerald-600" : "text-rose-600"
+                          }`}
                         aria-label={deltaLabel}
                       >
                         {isUp ? "+" : "−"}
@@ -312,9 +317,8 @@ export default function DashboardOverview() {
                         )}
                       </div>
                       <div
-                        className={`shrink-0 font-semibold tabular-nums ${
-                          isUp ? "text-emerald-600" : "text-rose-600"
-                        }`}
+                        className={`shrink-0 font-semibold tabular-nums ${isUp ? "text-emerald-600" : "text-rose-600"
+                          }`}
                         aria-label={deltaLabel}
                       >
                         {isUp ? "+" : "−"}
