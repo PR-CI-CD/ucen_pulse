@@ -7,6 +7,7 @@ import AddActivityButton from "./components/AddActivityButton";
 import AddActivityModal from "./components/AddActivityModal";
 import HealthMetricsModal from "./components/HealthMetricsModal";
 import DashboardOverview from "./components/DashboardOverview";
+import AiSuggestions from "./components/AiSuggestions";
 import Trends from "./components/Trends";
 import RecordDetailPage from "./pages/RecordDetailPage";
 
@@ -31,7 +32,9 @@ function Home() {
             <AddActivityButton label="+ Add Activity" open={isAddOpen} onClick={() => setIsAddOpen(true)} />
             <AddActivityButton label="+ Add Metrics" open={isMetricsOpen} onClick={() => setIsMetricsOpen(true)} />
           </div>
-          <div>OTHER CONTENT</div>
+
+          <AiSuggestions/>
+
         </div>
       </section>
 
@@ -50,6 +53,8 @@ function Home() {
         <h2 id="trends-heading" className="sr-only">Trends</h2>
         <Trends />
       </section>
+
+
 
 
       {/* Modals near page root is fine; if you ever need z-index stability, consider React portals */}
