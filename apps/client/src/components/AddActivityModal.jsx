@@ -326,7 +326,7 @@ export default function AddActivityModal({ open, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md px-4 py-2 text-sm underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="rounded-md border px-3 py-2 text-[15px] hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               Cancel
             </button>
