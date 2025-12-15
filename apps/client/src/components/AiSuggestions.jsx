@@ -3,11 +3,18 @@ import { useState } from "react";
 import { FaMagic } from "react-icons/fa";
 import { IoRefreshCircleOutline } from "react-icons/io5";
 
+// ********
+
+// Placeholder code to be implemented fully in the server side appilcation.
+
+// ********
+
 export default function AiSuggestions() {
   const [spinning, setSpinning] = useState(false);
 
   const handleClick = () => {
     setSpinning(true);
+    
     // Stop spinning after the animation completes (1s)
     setTimeout(() => setSpinning(false), 1000);
   };

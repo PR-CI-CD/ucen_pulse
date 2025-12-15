@@ -7,7 +7,7 @@ describe('LocalStorageRecordsRepository', () => {
   let store;
   beforeEach(() => {
     store = {};
-    // mock localStorage
+    // mock Local Storage
     jest.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((k) =>
       Object.prototype.hasOwnProperty.call(store, k) ? store[k] : null
     );

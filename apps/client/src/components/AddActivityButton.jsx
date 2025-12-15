@@ -5,6 +5,7 @@
  *  - <AddActivityButton label="+ Add Activity" open={isAddOpen} onClick={() => setIsAddOpen(true)} />
  *  - <AddActivityButton label="+ Add Metrics"  open={isMetricsOpen} onClick={() => setIsMetricsOpen(true)} />
  */
+
 export default function AddActivityButton({
   open = false,
   onOpen,         // legacy prop

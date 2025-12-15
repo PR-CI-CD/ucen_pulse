@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import AddActivityButton from '../components/AddActivityButton';
 import AddActivityModal from '../components/AddActivityModal';
 
-/** Test host that mirrors app wiring */
+// Test host that mirrors app wiring 
 function TestHost() {
   const [open, setOpen] = useState(false);
   return (
@@ -18,7 +18,7 @@ function TestHost() {
   );
 }
 
-/** Fresh mocked localStorage each test */
+// Fresh mocked localStorage each test 
 beforeEach(() => {
   let store = {};
   jest.spyOn(window.localStorage.__proto__, 'getItem').mockImplementation((key) =>

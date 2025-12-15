@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import AddActivityButton from '../components/AddActivityButton';
 import HealthMetricsModal from '../components/HealthMetricsModal';
 
-/** Host wiring to mirror App usage */
+// Host wiring to mirror App usage 
 function TestHost() {
   const [open, setOpen] = useState(false);
   return (

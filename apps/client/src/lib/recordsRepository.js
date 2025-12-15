@@ -59,5 +59,5 @@ export class LocalStorageRecordsRepository {
 }
 
 
-// Later, if we had a backend API, we could do something like:
+// Later, when a backend API is implemented, we could do something like:
 // export class ServerRecordsRepository { async getAll(){...} async getById(){...} subscribe(){...} }

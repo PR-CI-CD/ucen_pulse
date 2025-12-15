@@ -19,7 +19,7 @@ function ActivitiesProbe() {
 }
 
 beforeEach(() => {
-  // fresh LS for each test
+  // fresh Local Storage for each test
   localStorage.clear();
 });
 
@@ -50,7 +50,7 @@ describe('useActivitiesData', () => {
     render(<ActivitiesProbe />);
     expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    // simulate another tab writing to LS and dispatching a storage event
+    // simulate another tab writing to Local Storage and dispatching a storage event
     localStorage.setItem(LS_KEY, JSON.stringify(second));
     act(() => {
       window.dispatchEvent(new StorageEvent('storage', { key: LS_KEY }));
@@ -71,7 +71,7 @@ describe('useActivitiesData', () => {
     render(<ActivitiesProbe />);
     expect(screen.getByTestId('count')).toHaveTextContent('1');
 
-    // same-tab write + custom event (what your form does)
+    // same-tab write + custom event (what the form does)
     localStorage.setItem(LS_KEY, JSON.stringify(second));
     act(() => {
       window.dispatchEvent(new Event('activities:updated'));
