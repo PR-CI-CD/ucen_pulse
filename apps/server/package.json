@@ -1,4 +1,14 @@
 {
+  "name": "express-api",
+  "version": "1.0.0",
+  "description": "Node.js Express API boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
