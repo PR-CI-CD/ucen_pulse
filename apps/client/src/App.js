@@ -13,15 +13,21 @@ import RecordDetailPage from "./pages/RecordDetailPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 
-// 🔐 Protected Route Component
+// Protected Route 
 function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-  if (!token) {
-    return <Navigate to="/register" replace />;
-  }
+  useEffect(() => {
+    fetch("https://api.ucenpulse.com/api/auth/me", {
+      credentials: "include",
+    })
+      .then((res) => setIsAuthenticated(res.ok))
+      .catch(() => setIsAuthenticated(false));
+  }, []);
 
-  return children;
+  if (isAuthenticated === null) return <p>Loading...</p>;
+
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 // Page component for "/"

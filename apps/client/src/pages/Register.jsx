@@ -20,19 +20,37 @@ export default function Register() {
         }));
     };
 
-    // Placeholder handler for future API integration
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        setError(null);
-        setIsLoading(true);
+const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError(null);
+    setIsLoading(true);
 
-        console.log("Register form submitted:", formData);
+    try {
+        const response = await fetch(
+            "https://api.ucenpulse.com/api/auth/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(formData),
+            }
+        );
 
-        // Future backend integration will be added here
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 500);
-    };
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "Registration failed");
+        }
+
+        window.location.href = "/";
+    } catch (err) {
+        setError(err.message);
+    } finally {
+        setIsLoading(false);
+    }
+};
 
     return (
         <div className="auth-container max-w-md mx-auto mt-16 p-6 bg-white shadow-md rounded-lg">
