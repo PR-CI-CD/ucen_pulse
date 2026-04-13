@@ -1,7 +1,6 @@
 // src/App.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import AddActivityButton from "./components/AddActivityButton";
