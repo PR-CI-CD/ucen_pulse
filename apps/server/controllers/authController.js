@@ -61,25 +61,43 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email and password are required',
+      });
+    }
+
+    const user = await User.findOne({
+      where: { email },
+    });
 
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials.',
+        message: 'Invalid email or password',
       });
     }
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    const passwordIsValid = await bcrypt.compare(password, user.passwordHash);
 
-    if (!isMatch) {
+    if (!passwordIsValid) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials.',
+        message: 'Invalid email or password',
       });
     }
 
-    const token = createToken(user.id);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '7d',
+      }
+    );
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -88,14 +106,19 @@ exports.login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({
+    return res.status(200).json({
       success: true,
       message: 'Login successful',
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+      },
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: error.message,
+      message: 'Server error during login',
     });
   }
 };

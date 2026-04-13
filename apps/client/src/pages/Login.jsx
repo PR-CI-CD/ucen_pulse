@@ -21,20 +21,33 @@ export default function Login() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setError(null);
         setIsLoading(true);
 
-        console.log("Login form submitted:", formData);
+        try {
+            const response = await fetch("https://api.ucenpulse.com/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(formData)
+            });
 
-        // Future implementation will authenticate with the backend
-        // Example:
-        // await fetch("http://localhost:3001/api/auth/login", { ... })
+            const data = await response.json();
 
-        setTimeout(() => {
+            if (!response.ok) {
+                throw new Error(data.message || "Login failed");
+            }
+
+            navigate("/", { replace: true });
+        } catch (err) {
+            setError(err.message || "Something went wrong");
+        } finally {
             setIsLoading(false);
-        }, 500);
+        }
     };
 
     return (
