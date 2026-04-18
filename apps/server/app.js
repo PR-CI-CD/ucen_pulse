@@ -38,7 +38,7 @@ async function startServer() {
     console.log('✅ Database connection established successfully.');
 
     // Create tables if they do not exist
-    await sequelize.sync();
+    await sequelize.sync({ alter: true });
 
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);

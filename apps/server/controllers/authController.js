@@ -34,6 +34,7 @@ exports.register = async (req, res) => {
       fullName,
       email,
       passwordHash: hashedPassword,
+      role: 'user',
     });
 
     const token = createToken(user.id);
@@ -88,16 +89,17 @@ exports.login = async (req, res) => {
       });
     }
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '7d',
-      }
-    );
+const token = jwt.sign(
+  {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+  },
+  process.env.JWT_SECRET,
+  {
+    expiresIn: '7d',
+  }
+);
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -106,15 +108,16 @@ exports.login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({
-      success: true,
-      message: 'Login successful',
-      user: {
-        id: user.id,
-        fullName: user.fullName,
-        email: user.email,
-      },
-    });
+  return res.status(200).json({
+    success: true,
+    message: 'Login successful',
+    user: {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+    },
+  });
   } catch (error) {
     return res.status(500).json({
       success: false,
