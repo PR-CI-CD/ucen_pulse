@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /**
- * HealthMetricsModal.jsx
- * Track Steps, Water, Sleep, or Calories. Saves to localStorage 'metrics'.
- * Entry shape: { id, type, value, unit, notes, dateISO, createdAt }
+ * Accessible modal with a form to add a metric.
+ * Submits activity data to the backend API and triggers a UI refresh event.
  */
 
-const LS_KEY = 'metrics';
 const METRIC_TYPES = ['Steps', 'Water', 'Sleep', 'Calories'];
 const NOTES_MAX_LEN = 500;
 
@@ -16,19 +14,6 @@ const LIMITS = {
   Sleep:   { min: 0.25,  max: 24,     step: 0.25, integer: false, unit: 'hours'  },
   Calories:{ min: 1,     max: 10000,  step: 1,    integer: true,  unit: 'kcal'   },
 };
-
-function loadMetrics() {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveMetrics(list) {
-  localStorage.setItem(LS_KEY, JSON.stringify(list));
-}
 
 function uid() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);

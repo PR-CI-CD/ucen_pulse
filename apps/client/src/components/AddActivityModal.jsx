@@ -2,27 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 /**
  * Accessible modal with a form to add an activity.
- * Saves entries to localStorage under key "activities".
+ * Submits activity data to the backend API and triggers a UI refresh event.
  */
 
-const LS_KEY = "activities";
 const ACTIVITY_TYPES = ["Running", "Cycling", "Gym", "Swimming", "Yoga", "Walking", "Other"];
 const DURATION_MIN = 1;        // minutes
 const DURATION_MAX = 1440;     // 24h = 1440 mins
 const NOTES_MAX_LEN = 500;
 
-function loadActivities() {
-  try {
-    const raw = localStorage.getItem(LS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveActivities(list) {
-  localStorage.setItem(LS_KEY, JSON.stringify(list));
-}
 
 function uid() {
   return Math.random().toString(36).slice(2) + Date.now().toString(36);
