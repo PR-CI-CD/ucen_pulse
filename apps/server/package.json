@@ -4,8 +4,9 @@
   "description": "Node.js Express API boilerplate",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "jest --runInBand"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +23,9 @@
     "nodemon": "^3.1.10",
     "sequelize": "^6.37.8",
     "validator": "^13.15.15"
+  },
+  "devDependencies": {
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
   }
 }
