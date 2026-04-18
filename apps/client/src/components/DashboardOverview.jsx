@@ -215,6 +215,9 @@ export default function DashboardOverview() {
                 <div className="text-sm text-neutral-600 dark:text-neutral-300">
                   Duration:{" "}
                   <span className="tabular-nums">{Number(activity.duration ?? 0)}</span> mins
+                    <div className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                    {activity.notes}
+                  </div>
                 </div>
               </li>
             );
