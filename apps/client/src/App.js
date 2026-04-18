@@ -7,7 +7,7 @@ import AddActivityButton from "./components/AddActivityButton";
 import AddActivityModal from "./components/AddActivityModal";
 import HealthMetricsModal from "./components/HealthMetricsModal";
 import DashboardOverview from "./components/DashboardOverview";
-import AiSuggestions from "./components/Suggestions";
+import Suggestions from "./components/Suggestions";
 import Trends from "./components/Trends";
 import RecordDetailPage from "./pages/RecordDetailPage";
 import Register from "./pages/Register";
