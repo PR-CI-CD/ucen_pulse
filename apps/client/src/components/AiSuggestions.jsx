@@ -1,21 +1,41 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaMagic } from "react-icons/fa";
 import { IoRefreshCircleOutline } from "react-icons/io5";
 
-// ********
-
-// Placeholder code to be implemented fully in the server side appilcation.
-
-// ********
-
 export default function AiSuggestions() {
   const [spinning, setSpinning] = useState(false);
+  const [suggestion, setSuggestion] = useState("Loading suggestion...");
+  const [error, setError] = useState(null);
 
-  const handleClick = () => {
+  async function fetchSuggestion() {
+    try {
+      setError(null);
+
+      const response = await fetch("https://api.ucenpulse.com/api/suggestions/daily", {
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch suggestion");
+      }
+
+      setSuggestion(data.suggestion);
+    } catch (err) {
+      setError("Unable to load suggestion");
+      setSuggestion("Stay consistent with your healthy habits today.");
+    }
+  }
+
+  useEffect(() => {
+    fetchSuggestion();
+  }, []);
+
+  const handleClick = async () => {
     setSpinning(true);
-    
-    // Stop spinning after the animation completes (1s)
+    await fetchSuggestion();
     setTimeout(() => setSpinning(false), 1000);
   };
 
@@ -25,9 +45,14 @@ export default function AiSuggestions() {
         <div className="text-2xl">
           <FaMagic />
         </div>
-        <div>Maintain a 100 kcal daily deficit to lose an extra 2 pounds monthly</div>
+        <div>{error ? error : suggestion}</div>
       </div>
-      <button onClick={handleClick} className="text-3xl text-white">
+      <button
+        onClick={handleClick}
+        type="button"
+        aria-label="Refresh suggestion"
+        className="text-3xl text-white"
+      >
         <IoRefreshCircleOutline
           className={`transition-transform duration-1000 ${spinning ? "rotate-[360deg] scale-50" : ""}`}
         />

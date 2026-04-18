@@ -11,6 +11,7 @@ require('./models/Metric');
 const authRoutes = require('./routes/authRoutes');
 const activityRoutes = require('./routes/activityRoutes');
 const metricRoutes = require('./routes/metricRoutes');
+const suggestionRoutes = require('./routes/suggestionRoutes');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(
 app.use('/api/auth', authRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/metrics', metricRoutes);
+app.use('/api/suggestions', suggestionRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
