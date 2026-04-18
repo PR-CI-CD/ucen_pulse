@@ -1,25 +1,44 @@
 import { useEffect, useState } from "react";
 
-const LS_METRICS = "metrics";
-
-function readLS() {
-  try { return JSON.parse(localStorage.getItem(LS_METRICS) || "[]"); }
-  catch { return []; }
-}
-
 export default function useMetricsData() {
-  const [data, setData] = useState(() => readLS());
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  async function fetchMetrics() {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch("https://api.ucenpulse.com/api/metrics", {
+        credentials: "include",
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to fetch metrics");
+      }
+
+      setData(result.data || []);
+    } catch (err) {
+      setError(err.message);
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const onStorage = (e) => { if (e.key === LS_METRICS) setData(readLS()); };
-    const onCustom = () => setData(readLS()); // window.dispatchEvent(new Event("metrics:updated"))
-    window.addEventListener("storage", onStorage);
+    fetchMetrics();
+
+    const onCustom = () => fetchMetrics();
     window.addEventListener("metrics:updated", onCustom);
+
     return () => {
-      window.removeEventListener("storage", onStorage);
       window.removeEventListener("metrics:updated", onCustom);
     };
   }, []);
 
-  return { data, isLoading: false, error: null };
+  return { data, isLoading, error };
 }

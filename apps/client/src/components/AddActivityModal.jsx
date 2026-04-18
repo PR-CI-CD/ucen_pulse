@@ -146,37 +146,50 @@ export default function AddActivityModal({ open, onClose }) {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    if (!validate()) return;
+const handleSubmit = async (ev) => {
+  ev.preventDefault();
+  if (!validate()) return;
 
-    const cleanedType = String(type).trim();
-    const cleanedNotes = notes.trim();
-    const cleanedDuration = parseInteger(duration);
+  const cleanedType = String(type).trim();
+  const cleanedNotes = notes.trim();
+  const cleanedDuration = parseInteger(duration);
 
-    const entry = {
-      id: uid(),
-      dateISO: date,              // yyyy-mm-dd
-      type: cleanedType,
-      duration: cleanedDuration,  // integer minutes
-      notes: cleanedNotes,
-      createdAt: Date.now(),      // timestamp
-    };
+  const entry = {
+    id: uid(),
+    dateISO: date,
+    type: cleanedType,
+    duration: cleanedDuration,
+    notes: cleanedNotes,
+    createdAt: Date.now(),
+  };
 
-    const list = loadActivities();
-    const next = [entry, ...list];
-    saveActivities(next);
+  try {
+    const response = await fetch('https://api.ucenpulse.com/api/activities', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(entry),
+    });
 
-    // Notify other parts of the app something changed
-    window.dispatchEvent(new Event("activities:updated"));
+    const data = await response.json();
 
-    // reset & close
-    setType("");
-    setDuration("");
-    setNotes("");
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to save activity');
+    }
+
+    window.dispatchEvent(new Event('activities:updated'));
+
+    setType('');
+    setDuration('');
+    setNotes('');
     setDate(new Date().toISOString().slice(0, 10));
     onClose();
-  };
+  } catch (error) {
+    setErrors({ submit: error.message });
+  }
+};
 
   return (
     <div

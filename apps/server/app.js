@@ -4,7 +4,13 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const sequelize = require('./config/database');
 
+require('./models/User');
+require('./models/Activity');
+require('./models/Metric');
+
 const authRoutes = require('./routes/authRoutes');
+const activityRoutes = require('./routes/activityRoutes');
+const metricRoutes = require('./routes/metricRoutes');
 
 const app = express();
 
@@ -21,6 +27,8 @@ app.use(
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/activities', activityRoutes);
+app.use('/api/metrics', metricRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
@@ -37,7 +45,7 @@ async function startServer() {
     await sequelize.authenticate();
     console.log('✅ Database connection established successfully.');
 
-    // Create tables if they do not exist
+    // Create or update tables during development
     await sequelize.sync({ alter: true });
 
     app.listen(PORT, () => {

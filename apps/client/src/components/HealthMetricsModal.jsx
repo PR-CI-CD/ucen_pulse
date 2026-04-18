@@ -162,35 +162,50 @@ export default function HealthMetricsModal({ open, onClose }) {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (ev) => {
-    ev.preventDefault();
-    if (!validate()) return;
+const handleSubmit = async (ev) => {
+  ev.preventDefault();
+  if (!validate()) return;
 
-    const { unit, integer } = LIMITS[type] || { unit: '', integer: false };
-    const parsedValue = parseNumber(value, integer);
+  const { unit, integer } = LIMITS[type] || { unit: '', integer: false };
+  const parsedValue = parseNumber(value, integer);
 
-    const entry = {
-      id: uid(),
-      dateISO: date,
-      type,
-      value: parsedValue,
-      unit,
-      notes: notes.trim(),
-      createdAt: Date.now(),
-    };
+  const entry = {
+    id: uid(),
+    dateISO: date,
+    type,
+    value: parsedValue,
+    unit,
+    notes: notes.trim(),
+    createdAt: Date.now(),
+  };
 
-    const list = loadMetrics();
-    const next = [entry, ...list];
-    saveMetrics(next);
+  try {
+    const response = await fetch('https://api.ucenpulse.com/api/metrics', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(entry),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to save metric');
+    }
+
     window.dispatchEvent(new Event('metrics:updated'));
 
-    // reset & close
     setType('');
     setValue('');
     setNotes('');
     setDate(new Date().toISOString().slice(0, 10));
     onClose();
-  };
+  } catch (error) {
+    setErrors({ submit: error.message });
+  }
+};
 
   return (
     <div

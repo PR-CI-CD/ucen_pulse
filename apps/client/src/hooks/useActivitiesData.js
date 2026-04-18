@@ -1,26 +1,44 @@
 import { useEffect, useState } from "react";
 
-const LS_ACTIVITIES = "activities";
-
-function readLS() {
-  try { return JSON.parse(localStorage.getItem(LS_ACTIVITIES) || "[]"); }
-  catch { return []; }
-}
-
 export default function useActivitiesData() {
-  const [data, setData] = useState(() => readLS());
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  async function fetchActivities() {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch("https://api.ucenpulse.com/api/activities", {
+        credentials: "include",
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to fetch activities");
+      }
+
+      setData(result.data || []);
+    } catch (err) {
+      setError(err.message);
+      setData([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
-    const onStorage = (e) => { if (e.key === LS_ACTIVITIES) setData(readLS()); };
-    const onCustom = () => setData(readLS()); // from your form: window.dispatchEvent(new Event("activities:updated"))
-    window.addEventListener("storage", onStorage);
+    fetchActivities();
+
+    const onCustom = () => fetchActivities();
     window.addEventListener("activities:updated", onCustom);
+
     return () => {
-      window.removeEventListener("storage", onStorage);
       window.removeEventListener("activities:updated", onCustom);
     };
   }, []);
 
-  // keep a stable return shape so we can swap to server later
-  return { data, isLoading: false, error: null };
+  return { data, isLoading, error };
 }
